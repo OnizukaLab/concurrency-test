@@ -1,6 +1,5 @@
 #ifndef SIMPLEINCHTM_HPP
 #define SIMPLEINCHTM_HPP
-// #define HTM
 
 #include <iostream>
 #include <string>

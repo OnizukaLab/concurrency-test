@@ -10,6 +10,7 @@
 #include <random>
 #include <algorithm>
 #include "../Util.hpp"
+#include "../Define.hpp"
 
 using namespace std;
 

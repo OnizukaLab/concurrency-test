@@ -8,6 +8,7 @@
 #include <vector>
 #include <future>
 #include "../Util.hpp"
+#include "../Define.hpp"
 
 using namespace std;
 

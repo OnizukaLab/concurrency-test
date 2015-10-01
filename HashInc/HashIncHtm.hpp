@@ -1,6 +1,5 @@
 #ifndef HASHINCHTM
 #define HASHINCHTM
-// #define HTM
 
 #include <iostream>
 #include <string>

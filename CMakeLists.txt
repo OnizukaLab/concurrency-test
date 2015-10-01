@@ -8,6 +8,7 @@ add_executable(htm-sample
   Main.cpp
   Util.hpp
   Util.cpp
+  Define.hpp
   SimpleInc/SimpleIncBase.hpp
   SimpleInc/SimpleIncBase.cpp
   SimpleInc/SimpleIncNoCtrl.hpp

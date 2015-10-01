@@ -1,6 +1,3 @@
-#define INC
-#define HASH
-
 #include <iostream>
 #include <string>
 #include <functional>
@@ -18,6 +15,40 @@
 
 using namespace std;
 
+
+static void hash_test(int loop, int max_conc, int max_len){
+  for(int conc = 1; conc <= max_conc; conc++){
+    cout << "thread: " << conc << endl;
+    
+    for(int len = 1; len <= max_len; len++){
+      cout << "hash length: " << len << endl;
+      
+      auto h_no_ctrl = new HashIncNoCtrl(conc, loop, len);
+      auto du_h_no_ctrl = h_no_ctrl->go();
+      cout << "time (hash, no control): " << du_h_no_ctrl.count() << endl;
+      // cout << h_no_ctrl->get_sum() << "//";
+      // h_no_ctrl->print();
+      
+      auto h_mutex = new HashIncMutex(conc, loop, len);
+      auto du_h_mutex = h_mutex->go();
+      cout << "time (hash, mutex): " << du_h_mutex.count() << endl;
+      // cout << h_mutex->get_sum() << "//";
+      // h_mutex->print();
+      
+      auto h_htm = new HashIncHtm(conc, loop, len);
+      auto du_h_htm = h_htm->go();
+      cout << "time (hash, htm): " << du_h_htm.count() << endl;
+      // cout << h_htm->get_sum() << "//";
+      // h_htm->print();
+      
+      auto h_atomic = new HashIncAtomic(conc, loop, len);
+      auto du_h_atomic = h_atomic->go();
+      cout << "time (hash, atomic): " << du_h_atomic.count() << endl;
+      // cout << h_atomic->get_sum() << "//";
+      // h_atomic->print();
+    }
+  }
+}
 
 int main(int argc, char **argv){
   auto loop = 1000000;
@@ -50,7 +81,8 @@ int main(int argc, char **argv){
   cout << si_atomic->get_count() << endl;
   #endif
   
-  #ifdef HASH  
+  #ifdef HASH
+  /*
   auto h_no_ctrl = new HashIncNoCtrl(num, loop, len);
   auto du_h_no_ctrl = h_no_ctrl->go();
   cout << "time (hash, no control): " << du_h_no_ctrl.count() << endl;
@@ -74,6 +106,8 @@ int main(int argc, char **argv){
   cout << "time (hash, atomic): " << du_h_atomic.count() << endl;
   cout << h_atomic->get_sum() << "//";
   h_atomic->print();
+  */
+  hash_test(1000000, 32, 50);
   #endif
   
   return 0;
