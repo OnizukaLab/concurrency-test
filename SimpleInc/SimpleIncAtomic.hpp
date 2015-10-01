@@ -17,7 +17,7 @@ private:
   atomic<long> _atomic_count;
 
 protected:
-  function<void()> _increment();
+  function<void()> increment();
 
 public:
   SimpleIncAtomic(int thread_num, int loop_num);

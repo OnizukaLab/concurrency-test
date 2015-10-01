@@ -11,11 +11,11 @@ SimpleIncBase::SimpleIncBase(int thread_num, int loop_num){
 chrono::duration<double> SimpleIncBase::go(){
   return Util::measure_time([&](){
     for(int i = 0; i < _thread_num; i++)
-      threads.push_back(thread([=](){ 
-        for(int i = 0; i < _loop_num; i++)
-          _increment()();
+      _threads.push_back(thread([=](){ 
+        for(int i = 0; i < _loop_num / _thread_num; i++)
+          increment()();
       }));
-    for(thread &th: threads)
+    for(thread &th: _threads)
       th.join();
   });
 }

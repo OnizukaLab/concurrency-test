@@ -1,6 +1,6 @@
 #ifndef SIMPLEINCHTM_HPP
 #define SIMPLEINCHTM_HPP
-#define HTM
+// #define HTM
 
 #include <iostream>
 #include <string>
@@ -15,7 +15,7 @@ using namespace std;
 
 class SimpleIncHtm: public SimpleIncBase{
 protected:
-  function<void()> _increment();
+  function<void()> increment();
 
 public:
   SimpleIncHtm(int thread_num, int loop_num);

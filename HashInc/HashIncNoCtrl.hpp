@@ -1,5 +1,5 @@
-#ifndef SIMPLEINCNOCTRL_HPP
-#define SIMPLEINCNOCTRL_HPP
+#ifndef HASHINCNOCTRL
+#define HASHINCNOCTRL
 
 #include <iostream>
 #include <string>
@@ -7,17 +7,17 @@
 #include <chrono>
 #include <vector>
 #include <future>
-#include "SimpleIncBase.hpp"
+#include "HashIncBase.hpp"
 
 using namespace std;
 
 
-class SimpleIncNoCtrl: public SimpleIncBase{
+class HashIncNoCtrl: public HashIncBase{
 protected:
   function<void()> increment();
-
+  
 public:
-  SimpleIncNoCtrl(int thread_num, int loop_num);
+  HashIncNoCtrl(int thread_num, int loop_num, int len);
 };
 
 #endif

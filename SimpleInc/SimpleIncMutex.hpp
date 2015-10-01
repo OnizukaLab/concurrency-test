@@ -14,10 +14,10 @@ using namespace std;
 
 class SimpleIncMutex: public SimpleIncBase{
 private:
-  mutex mtx;
+  mutex _mtx;
 
 protected:
-  function<void()> _increment();
+  function<void()> increment();
 
 public:
   SimpleIncMutex(int thread_num, int loop_num);
