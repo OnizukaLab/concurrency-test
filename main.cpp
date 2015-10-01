@@ -2,18 +2,20 @@
 #include <string>
 #include <functional>
 #include <chrono>
-#include <thread>
+#include <vector>
+#include <future>
 
 using namespace std;
 
 
-static pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;
+static mutex mtx;
 static long shared_cnt_no_ctrl = 0;
 static long shared_cnt_mutex = 0;
+static atomic<long> shared_cnt_atomic(0);
 static long shared_cnt_htm = 0;
 
 
-static chrono::duration<double> measure_time(function<void()> f){
+chrono::duration<double> measure_time(function<void()> f){
   const auto startTime = chrono::system_clock::now();
   
   f();
@@ -23,68 +25,56 @@ static chrono::duration<double> measure_time(function<void()> f){
 }
 
 static function<void()> inc_no_ctrl = [](){
-    shared_cnt_no_ctrl++;
-  };
+  shared_cnt_no_ctrl++;
+};
 
 static function<void()> inc_mutex = [](){
-    pthread_mutex_lock(&m);
-    shared_cnt_mutex++;
-    pthread_mutex_unlock(&m);
-  };
+  mtx.lock();
+  shared_cnt_mutex++;
+  mtx.unlock();
+};
+
+static function<void()> inc_atomic = [](){
+  shared_cnt_atomic++;
+};
 
 static function<void()> inc_htm = [](){
-    __transaction_atomic{
-      shared_cnt_htm++;
-    }
-  };
+  __transaction_atomic{
+    shared_cnt_htm++;
+  }
+};
 
-static function<void(int, function<void()>)> loop = [](int max, function<void()> f){
-    for(int i = 0; i < max; i++)
-      f();
-  };
-
-static void* wrapper_no_ctrl(void* args){
-  loop(1000000, inc_no_ctrl);
-  return 0;
-}
-
-static void* wrapper_mutex(void* args){
-  loop(1000000, inc_mutex);
-  return 0;
-}
-
-static void* wrapper_htm(void* args){
-  loop(100000, inc_htm);
-  return 0;
+chrono::duration<double> go(function<void()> f, int loop, vector<thread>& ths, int num){
+  return measure_time([&](){
+    for(int i = 0; i < num; i++)
+      ths.push_back(thread([=](){ 
+        for(int i = 0; i < loop; i++)
+          f();
+      }));
+    for(thread &th: ths)
+      th.join();
+  });
 }
 
 int main(int argc, char **argv){
-  auto n = 32;
-  auto *threads = new pthread_t[n];
+  auto loop = 1000000;
+  auto num = 4;
   
-  auto t_no_ctrl = measure_time([=](){
-    for(int i = 0; i < n; ++i)
-      pthread_create(&threads[i], NULL, wrapper_no_ctrl, NULL);
-    for(int i = 0; i < n; ++i)
-      pthread_join(threads[i], 0);
-  });
-  cout << "time: " << t_no_ctrl.count() << endl;
-
-  auto t_mutex = measure_time([=](){
-    for(int i = 0; i < n; ++i)
-      pthread_create(&threads[i], NULL, wrapper_mutex, NULL);
-    for(int i = 0; i < n; ++i)
-      pthread_join(threads[i], 0);
-  });  
-  cout << "time: " << t_mutex.count() << endl;
+  vector<thread> threads_no_ctrl;
+  auto d_no_ctrl = go(inc_no_ctrl, loop, threads_no_ctrl, num);
+  cout << "time no control: " << d_no_ctrl.count() << endl;
   
-  auto t_htm = measure_time([=](){
-    for(int i = 0; i < n; ++i)
-      pthread_create(&threads[i], NULL, wrapper_htm, NULL);
-    for(int i = 0; i < n; ++i)
-      pthread_join(threads[i], 0);
-  });  
-  cout << "time: " << t_htm.count() << endl;
-
+  vector<thread> threads_mutex;
+  auto d_mutex = go(inc_mutex, loop, threads_mutex, num);
+  cout << "time mutex: " << d_mutex.count() << endl;
+  
+  vector<thread> threads_atomic;
+  auto d_atomic = go(inc_atomic, loop, threads_atomic, num);
+  cout << "time atomic: " << d_atomic.count() << endl;
+  
+  vector<thread> threads_htm;
+  auto d_htm = go(inc_mutex, loop, threads_htm, num);
+  cout << "time htm: " << d_htm.count() << endl;
+  
   return 0;
 }
