@@ -42,9 +42,9 @@ static void hash_test(int loop, int max_conc, int max_len){
       // cout << h_htm_atomic->get_sum() << "//";
       // h_htm_atomic->print();
       
-      auto h_htm_relaxed = new HashIncHtmAtomic(conc, loop, len);
+      auto h_htm_relaxed = new HashIncHtmRelaxed(conc, loop, len);
       auto du_h_htm_relaxed = h_htm_relaxed->go();
-      cout << "time (hash, htm_atomic): " << du_h_htm_relaxed.count() << endl;
+      cout << "time (hash, htm_relaxed): " << du_h_htm_relaxed.count() << endl;
       // cout << h_htm_relaxed->get_sum() << "//";
       // h_htm_relaxed->print();
       
