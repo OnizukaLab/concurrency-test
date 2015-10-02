@@ -10,7 +10,8 @@
 #include "SimpleInc/SimpleIncAtomic.hpp"
 #include "HashInc/HashIncNoCtrl.hpp"
 #include "HashInc/HashIncMutex.hpp"
-#include "HashInc/HashIncHtm.hpp"
+#include "HashInc/HashIncHtmAtomic.hpp"
+#include "HashInc/HashIncHtmRelaxed.hpp"
 #include "HashInc/HashIncAtomic.hpp"
 
 using namespace std;
@@ -35,11 +36,17 @@ static void hash_test(int loop, int max_conc, int max_len){
       // cout << h_mutex->get_sum() << "//";
       // h_mutex->print();
       
-      auto h_htm = new HashIncHtm(conc, loop, len);
-      auto du_h_htm = h_htm->go();
-      cout << "time (hash, htm): " << du_h_htm.count() << endl;
-      // cout << h_htm->get_sum() << "//";
-      // h_htm->print();
+      auto h_htm_atomic = new HashIncHtmAtomic(conc, loop, len);
+      auto du_h_htm_atomic = h_htm_atomic->go();
+      cout << "time (hash, htm_atomic): " << du_h_htm_atomic.count() << endl;
+      // cout << h_htm_atomic->get_sum() << "//";
+      // h_htm_atomic->print();
+      
+      auto h_htm_relaxed = new HashIncHtmAtomic(conc, loop, len);
+      auto du_h_htm_relaxed = h_htm_relaxed->go();
+      cout << "time (hash, htm_atomic): " << du_h_htm_relaxed.count() << endl;
+      // cout << h_htm_relaxed->get_sum() << "//";
+      // h_htm_relaxed->print();
       
       auto h_atomic = new HashIncAtomic(conc, loop, len);
       auto du_h_atomic = h_atomic->go();

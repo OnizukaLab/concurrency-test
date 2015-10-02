@@ -1,5 +1,5 @@
-#ifndef HASHINCHTM
-#define HASHINCHTM
+#ifndef HASHINCHTMRELAXED
+#define HASHINCHTMRELAXED
 
 #include <iostream>
 #include <string>
@@ -12,12 +12,12 @@
 using namespace std;
 
 
-class HashIncHtm: public HashIncBase{
+class HashIncHtmRelaxed: public HashIncBase{
 protected:
   function<void()> increment();
   
 public:
-  HashIncHtm(int thread_num, int loop_num, int len);
+  HashIncHtmRelaxed(int thread_num, int loop_num, int len);
 };
 
 #endif

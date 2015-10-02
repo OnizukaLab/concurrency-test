@@ -25,8 +25,10 @@ add_executable(htm-sample
   HashInc/HashIncNoCtrl.cpp
   HashInc/HashIncMutex.hpp
   HashInc/HashIncMutex.cpp
-  HashInc/HashIncHtm.hpp
-  HashInc/HashIncHtm.cpp
+  HashInc/HashIncHtmAtomic.hpp
+  HashInc/HashIncHtmAtomic.cpp
+  HashInc/HashIncHtmRelaxed.hpp
+  HashInc/HashIncHtmRelaxed.cpp
   HashInc/HashIncAtomic.hpp
   HashInc/HashIncAtomic.cpp
 )

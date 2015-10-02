@@ -1,10 +1,10 @@
-#include "HashIncHtm.hpp"
+#include "HashIncHtmAtomic.hpp"
 
 
-HashIncHtm::HashIncHtm(int thread_num, int loop_num, int len)
+HashIncHtmAtomic::HashIncHtmAtomic(int thread_num, int loop_num, int len)
 : HashIncBase(thread_num, loop_num, len){}
 
-function<void()> HashIncHtm::increment(){
+function<void()> HashIncHtmAtomic::increment(){
   return [&](){
     #ifdef HTM
     __transaction_atomic{
