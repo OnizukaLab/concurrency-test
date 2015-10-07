@@ -12,7 +12,7 @@ chrono::duration<double> SimpleIncBase::go(){
   return Util::measure_time([&](){
     for(int i = 0; i < _thread_num; i++)
       _threads.push_back(thread([=](){ 
-        for(int i = 0; i < _loop_num / _thread_num; i++)
+        for(int j = 0; j < _loop_num / _thread_num; j++)
           increment()();
       }));
     for(thread &th: _threads)
