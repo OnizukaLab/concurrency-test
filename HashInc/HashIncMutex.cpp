@@ -7,7 +7,7 @@ HashIncMutex::HashIncMutex(int thread_num, int loop_num, int len)
 function<void()> HashIncMutex::increment(){
   return [&](){
     _mtx.lock();
-    _v[_distribution(_mt)]++;
+    _v[rand()]++;
     _mtx.unlock();
   };
 }

@@ -8,7 +8,7 @@ function<void()> HashIncHtmRelaxed::increment(){
   return [&](){
     #ifdef HTM
     __transaction_relaxed{
-      _v[_distribution(_mt)]++;
+      _v[rand()]++;
     }
     #endif
   };

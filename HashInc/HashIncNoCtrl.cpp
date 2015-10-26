@@ -6,6 +6,6 @@ HashIncNoCtrl::HashIncNoCtrl(int thread_num, int loop_num, int len)
 
 function<void()> HashIncNoCtrl::increment(){
   return [&](){
-    _v[_distribution(_mt)]++;
+    _v[rand()]++;
   };
 }

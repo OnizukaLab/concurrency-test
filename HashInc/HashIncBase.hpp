@@ -16,15 +16,18 @@ using namespace std;
 
 
 class HashIncBase{
+private:
+  random_device _rd;
+  mt19937 _mt;
+  uniform_int_distribution<long> _distribution;
+
 protected:
   int _len;
   int _thread_num;
   int _loop_num;
   vector<thread> _threads;
   vector<long> _v;
-  random_device _rd;
-  mt19937 _mt;
-  uniform_int_distribution<long> _distribution;
+  long rand();
   virtual function<void()> increment() = 0;
   
 public:

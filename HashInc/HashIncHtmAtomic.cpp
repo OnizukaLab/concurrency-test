@@ -8,7 +8,7 @@ function<void()> HashIncHtmAtomic::increment(){
   return [&](){
     #ifdef HTM
     __transaction_atomic{
-      _v[_distribution(_mt)]++;
+      _v[rand()]++;
     }
     #endif
   };
