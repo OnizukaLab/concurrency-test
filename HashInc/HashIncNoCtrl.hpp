@@ -14,10 +14,10 @@ using namespace std;
 
 class HashIncNoCtrl: public HashIncBase{
 protected:
-  function<void()> increment();
+  function<void()> increment(double prob);
   
 public:
-  HashIncNoCtrl(int thread_num, int loop_num, int len);
+  HashIncNoCtrl(int thread_num, int loop_num, int len, int density, int chunk);
 };
 
 #endif

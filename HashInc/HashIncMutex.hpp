@@ -17,10 +17,10 @@ private:
   mutex _mtx;
 
 protected:
-  function<void()> increment();
+  function<void()> increment(double prob);
   
 public:
-  HashIncMutex(int thread_num, int loop_num, int len);
+  HashIncMutex(int thread_num, int loop_num, int len, int density, int chunk);
 };
 
 #endif

@@ -14,10 +14,10 @@ using namespace std;
 
 class HashIncHtmAtomic: public HashIncBase{
 protected:
-  function<void()> increment();
+  function<void()> increment(double prob);
   
 public:
-  HashIncHtmAtomic(int thread_num, int loop_num, int len);
+  HashIncHtmAtomic(int thread_num, int loop_num, int len, int density, int chunk);
 };
 
 #endif

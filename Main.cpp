@@ -16,55 +16,9 @@
 
 using namespace std;
 
-
-static void hash_test(int loop, int max_conc, int max_len){
-  for(int conc = 1; conc <= max_conc; conc++){
-    cout << "thread: " << conc << endl;
-    
-    for(int len = 1; len <= max_len; len++){
-      cout << "hash length: " << len << endl;
-      
-      auto h_no_ctrl = new HashIncNoCtrl(conc, loop, len);
-      auto du_h_no_ctrl = h_no_ctrl->go();
-      cout << "time (hash, no control): " << du_h_no_ctrl.count() << endl;
-      // cout << h_no_ctrl->get_sum() << "//";
-      // h_no_ctrl->print();
-      
-      auto h_mutex = new HashIncMutex(conc, loop, len);
-      auto du_h_mutex = h_mutex->go();
-      cout << "time (hash, mutex): " << du_h_mutex.count() << endl;
-      // cout << h_mutex->get_sum() << "//";
-      // h_mutex->print();
-      
-      auto h_htm_atomic = new HashIncHtmAtomic(conc, loop, len);
-      auto du_h_htm_atomic = h_htm_atomic->go();
-      cout << "time (hash, htm_atomic): " << du_h_htm_atomic.count() << endl;
-      // cout << h_htm_atomic->get_sum() << "//";
-      // h_htm_atomic->print();
-      
-      auto h_htm_relaxed = new HashIncHtmRelaxed(conc, loop, len);
-      auto du_h_htm_relaxed = h_htm_relaxed->go();
-      cout << "time (hash, htm_relaxed): " << du_h_htm_relaxed.count() << endl;
-      // cout << h_htm_relaxed->get_sum() << "//";
-      // h_htm_relaxed->print();
-      
-      auto h_atomic = new HashIncAtomic(conc, loop, len);
-      auto du_h_atomic = h_atomic->go();
-      cout << "time (hash, atomic): " << du_h_atomic.count() << endl;
-      // cout << h_atomic->get_sum() << "//";
-      // h_atomic->print();
-    }
-  }
-}
-
 int main(int argc, char **argv){
   auto loop = 1000000;
   auto num = 4;
-  auto len = 20;
-  
-  cout << "loop: " << loop << endl;
-  cout << "thread: " << num << endl;
-  cout << "hash length: " << len << endl;
   
   #ifdef INC
   auto si_no_ctrl = new SimpleIncNoCtrl(num, loop);
@@ -89,32 +43,48 @@ int main(int argc, char **argv){
   #endif
   
   #ifdef HASH
-  /*
-  auto h_no_ctrl = new HashIncNoCtrl(num, loop, len);
-  auto du_h_no_ctrl = h_no_ctrl->go();
-  cout << "time (hash, no control): " << du_h_no_ctrl.count() << endl;
-  cout << h_no_ctrl->get_sum() << "//";
-  h_no_ctrl->print();
-  
-  auto h_mutex = new HashIncMutex(num, loop, len);
-  auto du_h_mutex = h_mutex->go();
-  cout << "time (hash, mutex): " << du_h_mutex.count() << endl;
-  cout << h_mutex->get_sum() << "//";
-  h_mutex->print();
-  
-  auto h_htm = new HashIncHtm(num, loop, len);
-  auto du_h_htm = h_htm->go();
-  cout << "time (hash, htm): " << du_h_htm.count() << endl;
-  cout << h_htm->get_sum() << "//";
-  h_htm->print();
-  
-  auto h_atomic = new HashIncAtomic(num, loop, len);
-  auto du_h_atomic = h_atomic->go();
-  cout << "time (hash, atomic): " << du_h_atomic.count() << endl;
-  cout << h_atomic->get_sum() << "//";
-  h_atomic->print();
-  */
-  hash_test(1000000, 32, 50);
+  auto kind = stoi(argv[1]);
+  auto thread_num = stoi(argv[2]);
+  auto loop_num = stoi(argv[3]);
+  auto len = stoi(argv[4]);
+  auto density = stoi(argv[5]);
+  auto chunk = stoi(argv[6]);
+  auto prob = stoi(argv[7]);
+
+  switch(kind){
+    case 0:{
+      auto inc0 = new HashIncNoCtrl(thread_num, loop_num, len, density, chunk);
+      auto res0 = inc0->go(prob);
+      cout << res0.count() << endl;
+      break;
+    }
+    case 1:{
+      auto inc1 = new HashIncMutex(thread_num, loop_num, len, density, chunk);
+      auto res1 = inc1->go(prob);
+      cout << res1.count() << endl;
+      break;
+    }
+    case 2:{
+      auto inc2 = new HashIncHtmAtomic(thread_num, loop_num, len, density, chunk);
+      auto res2 = inc2->go(prob);
+      cout << res2.count() << endl;
+      break;
+    }
+    case 3:{
+      auto inc3 = new HashIncHtmRelaxed(thread_num, loop_num, len, density, chunk);
+      auto res3 = inc3->go(prob);
+      cout << res3.count() << endl;
+      break;
+    }
+    case 4:{
+      auto inc4 = new HashIncAtomic(thread_num, loop_num, len, density, chunk);
+      auto res4 = inc4->go(prob);
+      cout << res4.count() << endl;
+      break;
+    }
+    default:
+      break;
+  }
   #endif
   
   return 0;

@@ -1,6 +1,7 @@
 #ifndef HASHINCBASE
 #define HASHINCBASE
 
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <functional>
@@ -25,15 +26,17 @@ protected:
   int _len;
   int _thread_num;
   int _loop_num;
+  int _density;
+  int _chunk;
   vector<thread> _threads;
   vector<long> _v;
-  long rand();
-  virtual function<void()> increment() = 0;
+  long rand_index();
+  virtual function<void()> increment(double prob) = 0;
   
 public:
-  HashIncBase(int thread_num, int loop_num, int len);
+  HashIncBase(int thread_num, int loop_num, int len, int density, int chunk);
   
-  chrono::duration<double> go();
+  chrono::duration<double> go(double prob);
   virtual long get_sum();
   virtual void print();
 };

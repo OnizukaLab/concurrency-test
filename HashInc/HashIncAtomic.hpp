@@ -17,10 +17,10 @@ private:
   vector<atomic<long>> _atomic_v;
 
 protected:
-  function<void()> increment();
+  function<void()> increment(double prob);
   
 public:
-  HashIncAtomic(int thread_num, int loop_num, int len);
+  HashIncAtomic(int thread_num, int loop_num, int len, int density, int chunk);
   
   long get_sum();
   void print();
