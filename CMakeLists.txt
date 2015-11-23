@@ -1,24 +1,14 @@
 cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_CXX_COMPILER "/usr/bin/g++")
-set(CMAKE_CXX_FLAGS "-std=c++11 -pthread -fgnu-tm -Wall")
+set(CMAKE_CXX_FLAGS "-std=c++11 -pthread -fgnu-tm -mhle -mrtm -Wall -g -O1 -shared-libgcc")
 
-project(htm-sample CXX)
-add_executable(htm-sample
+project(concurrency-test CXX)
+add_executable(concurrency-test
   Main.cpp
   Util.hpp
   Util.cpp
   Define.hpp
-  SimpleInc/SimpleIncBase.hpp
-  SimpleInc/SimpleIncBase.cpp
-  SimpleInc/SimpleIncNoCtrl.hpp
-  SimpleInc/SimpleIncNoCtrl.cpp
-  SimpleInc/SimpleIncMutex.hpp
-  SimpleInc/SimpleIncMutex.cpp
-  SimpleInc/SimpleIncHtm.hpp
-  SimpleInc/SimpleIncHtm.cpp
-  SimpleInc/SimpleIncAtomic.hpp
-  SimpleInc/SimpleIncAtomic.cpp
   HashInc/HashIncBase.hpp
   HashInc/HashIncBase.cpp
   HashInc/HashIncNoCtrl.hpp
@@ -29,6 +19,10 @@ add_executable(htm-sample
   HashInc/HashIncHtmAtomic.cpp
   HashInc/HashIncHtmRelaxed.hpp
   HashInc/HashIncHtmRelaxed.cpp
+  HashInc/HashIncHLE.hpp
+  HashInc/HashIncHLE.cpp
+  HashInc/HashIncRTM.hpp
+  HashInc/HashIncRTM.cpp
   HashInc/HashIncAtomic.hpp
   HashInc/HashIncAtomic.cpp
 )

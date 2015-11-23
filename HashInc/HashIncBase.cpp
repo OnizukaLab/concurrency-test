@@ -1,21 +1,16 @@
 #include "HashIncBase.hpp"
 
 
-HashIncBase::HashIncBase(int thread_num, int loop_num, int len, int density, int chunk)
-:_v(len * density, 0), _mt(_rd()), _distribution(0, len - 1){
-  _thread_num = thread_num;
-  _loop_num = loop_num;
-  _len = len;
-  _density = density;
-  _chunk = chunk;
-}
+HashIncBase::HashIncBase(int iters, int conc, int load, int len, int dens, int chunk, double ro)
+:_iters(iters), _conc(conc), _load(load), _len(len), _dens(dens), _chunk(chunk), _ro(ro),
+_v(len * dens, 0), _mt(_rd()), _distribution(0, len - 1){ }
 
-chrono::duration<double> HashIncBase::go(double prob = 1){
+chrono::duration<double> HashIncBase::go(){
   return Util::measure_time([&](){
-    for(int i = 0; i < _thread_num; i++)
+    for(int i = 0; i < _conc; i++)
       _threads.push_back(thread([=](){ 
-        for(int j = 0; j < _loop_num / _thread_num; j++)
-          increment(prob)();
+        for(int j = 0; j < _iters / _conc; j++)
+          increment();
       }));
     for(thread &th: _threads)
       th.join();
@@ -23,19 +18,19 @@ chrono::duration<double> HashIncBase::go(double prob = 1){
 }
 
 long HashIncBase::rand_index(){
-  return _distribution(_mt) * _density;
+  return _distribution(_mt) * _dens;
 }
 
 long HashIncBase::get_sum(){
   long sum = 0;
   for(int i = 0; i < _len; i++)
-    sum += _v[i * _density];
+    sum += _v[i * _dens];
   return sum;
 }
 
 void HashIncBase::print(){
   cout << "list: ";
   for(int i = 0; i < _len; i++)
-    cout << _v[i * _density] << " ";
+    cout << _v[i * _dens] << " ";
   cout << endl;
 }

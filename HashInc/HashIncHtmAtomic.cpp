@@ -1,15 +1,20 @@
 #include "HashIncHtmAtomic.hpp"
 
 
-HashIncHtmAtomic::HashIncHtmAtomic(int thread_num, int loop_num, int len, int density, int chunk)
-: HashIncBase(thread_num, loop_num, len, density, chunk){}
+HashIncHtmAtomic::HashIncHtmAtomic(int iters, int conc, int load, int len, int dens, int chunk, double ro)
+: HashIncBase(iters, conc, load, len, dens, chunk, ro){}
 
-function<void()> HashIncHtmAtomic::increment(double prob){
-  return [&](){
-    #ifdef HTM
-//    __transaction_atomic{
-//      _v[rand()]++;
-//    }
-    #endif
-  };
+void HashIncHtmAtomic::increment(){
+  const auto rnd = rand();
+  const auto index = rand_index();
+
+  __transaction_atomic{
+    auto sum = 0;
+    for(int i = 0; i < _chunk; i++)
+      sum += (rnd % 100 < (int)(_ro * 100)) ? ++_v[index] : _v[index];
+    for(int i = 0; i < _load; i++){
+      sum++;
+      sum--;
+    }
+  }
 }

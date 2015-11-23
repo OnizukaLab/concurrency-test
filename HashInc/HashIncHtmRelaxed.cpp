@@ -1,21 +1,22 @@
 #include "HashIncHtmRelaxed.hpp"
 
 
-HashIncHtmRelaxed::HashIncHtmRelaxed(int thread_num, int loop_num, int len, int density, int chunk)
-: HashIncBase(thread_num, loop_num, len, density, chunk){}
+HashIncHtmRelaxed::HashIncHtmRelaxed(int iters, int conc, int load, int len, int dens, int chunk, double ro)
+: HashIncBase(iters, conc, load, len, dens, chunk, ro){}
 
-function<void()> HashIncHtmRelaxed::increment(double prob){
-  return [&](){
-    #ifdef HTM
-    __transaction_relaxed{
-      for(int i = 0; i < _chunk; i++){
-        auto index = rand_index();
-        if(rand() % 10 < (int)(prob * 10))
-          _v[index]++;
-        else
-          auto x = _v[index];
-      }
+void HashIncHtmRelaxed::increment(){
+  #ifdef HTM
+  const auto rnd = rand();
+  const auto index = rand_index();
+
+  __transaction_relaxed{
+    auto sum = 0;
+    for(int i = 0; i < _chunk; i++)
+      sum += (rnd % 100 < (int)(_ro * 100)) ? ++_v[index] : _v[index];
+    for(int i = 0; i < _load; i++){
+      sum++;
+      sum--;
     }
-    #endif
-  };
+  }
+  #endif
 }

@@ -14,10 +14,10 @@ using namespace std;
 
 class HashIncHtmRelaxed: public HashIncBase{
 protected:
-  function<void()> increment(double prob);
+  void increment();
   
 public:
-  HashIncHtmRelaxed(int thread_num, int loop_num, int len, int density, int chunk);
+  HashIncHtmRelaxed(int iters, int conc, int load, int len, int dens, int chunk, double ro);
 };
 
 #endif

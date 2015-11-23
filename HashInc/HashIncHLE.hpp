@@ -1,5 +1,5 @@
-#ifndef HASHINCHTMATOMIC
-#define HASHINCHTMATOMIC
+#ifndef HASHINCHLE
+#define HASHINCHLE
 
 #include <iostream>
 #include <string>
@@ -7,17 +7,18 @@
 #include <chrono>
 #include <vector>
 #include <future>
+#include <immintrin.h>
 #include "HashIncBase.hpp"
 
 using namespace std;
 
 
-class HashIncHtmAtomic: public HashIncBase{
+class HashIncHLE: public HashIncBase{
 protected:
   void increment();
   
 public:
-  HashIncHtmAtomic(int iters, int conc, int load, int len, int dens, int chunk, double ro);
+  HashIncHLE(int iters, int conc, int load, int len, int dens, int chunk, double ro);
 };
 
 #endif

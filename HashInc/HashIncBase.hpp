@@ -23,20 +23,22 @@ private:
   uniform_int_distribution<long> _distribution;
 
 protected:
-  int _len;
-  int _thread_num;
-  int _loop_num;
-  int _density;
-  int _chunk;
+  const int _iters;
+  const int _conc;
+  const int _load;
+  const int _len;
+  const int _dens;
+  const int _chunk;
+  const double _ro;
   vector<thread> _threads;
   vector<long> _v;
   long rand_index();
-  virtual function<void()> increment(double prob) = 0;
+  virtual void increment() = 0;
   
 public:
-  HashIncBase(int thread_num, int loop_num, int len, int density, int chunk);
+  HashIncBase(int iters, int conc, int load, int len, int dens, int chunk, double ro);
   
-  chrono::duration<double> go(double prob);
+  chrono::duration<double> go();
   virtual long get_sum();
   virtual void print();
 };
