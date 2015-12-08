@@ -15,7 +15,7 @@ using namespace std;
 
 class HashIncRTM: public HashIncBase{
 protected:
-  void increment();
+  void increment(int thread_num);
   
 public:
   HashIncRTM(int iters, int conc, int load, int len, int dens, int chunk, double ro);

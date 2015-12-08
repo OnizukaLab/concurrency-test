@@ -17,7 +17,7 @@ private:
   mutex _mtx;
 
 protected:
-  void increment();
+  void increment(int thread_num);
   
 public:
   HashIncMutex(int iters, int conc, int load, int len, int dens, int chunk, double ro);

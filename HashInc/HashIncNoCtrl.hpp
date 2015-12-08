@@ -14,7 +14,7 @@ using namespace std;
 
 class HashIncNoCtrl: public HashIncBase{
 protected:
-  void increment();
+  void increment(int thread_num);
   
 public:
   HashIncNoCtrl(int iters, int conc, int load, int len, int dens, int chunk, double ro);
