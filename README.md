@@ -1,5 +1,20 @@
 # concurrency-test
 
+## About this command
+
+### Argments
+
+|index|arg|default by tester|
+|---|---|---|
+|1|type of concurrency|NaN|
+|2|num of iterations|1000000|
+|3|concurrency|num of physical cores|
+|4|load|1000|
+|5|conflict rate(length of array)|1000|
+|6|element size(density of array)|8|
+|7|chunk size|8|
+|8|write op rate|0.2|
+
 ## Usage
 
 ### Prerequisites
