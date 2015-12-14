@@ -2,11 +2,11 @@
 
 ## About this command
 
-### Argments
+### Arguments
 
 |index|arg|default by tester|
 |---|---|---|
-|1|type of concurrency|NaN|
+|1|a type of concurrency|NaN|
 |2|num of iterations|1000000|
 |3|concurrency|num of physical cores|
 |4|load|1000|
@@ -14,6 +14,18 @@
 |6|element size(density of array)|8|
 |7|chunk size|8|
 |8|write op rate|0.2|
+
+### Types of concurrency
+
+|index|type|
+|---|---|
+|0|HLE|
+|1|RTM|
+|2|transaction_atomic(gcc)|
+|3|transaction_relaxed(gcc)|
+|4|mutex lock|
+|5|atomic value|
+|6|no control|
 
 
 ## Usage
@@ -35,7 +47,7 @@ cd /path/to/concurrency-test
 cmake .
 make
 for s in tester/*.zsh; do; ./$s nyan; done; # all measurement (save to nyan)
-tester/conc.zsh nyan 1 6 # or customized one (concurrency/mutex&atomic, save to nyan)
+tester/conc.zsh nyan 0 4 # or customized one (concurrency/HLE&mutex, save to nyan)
 ```
 
 and then

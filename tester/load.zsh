@@ -19,7 +19,7 @@ for i in $targets; do;
       ./concurrency-test $i 1000000 $ncores $j 1000 8 8 0.2 >> $result_dir/load/cache/$i 2>&1
     amplxe-cl -r=$result_dir/load.cellar/ahs/$i/$j -c advanced-hotspots ./concurrency-test $i 1000000 $ncores $j 1000 8 8 0.2 \
       >> $result_dir/load/ahs/$i
-    if [[ $i -eq 2 || $i -eq 3 || $i -eq 4 ]]; then;
+    if [[ 0 -le $i && $i -le 3 ]]; then;
       amplxe-cl -r=$result_dir/load.cellar/tsx/$i/$j -c tsx-exploration ./concurrency-test $i 1000000 $ncores $j 1000 8 8 0.2 \
         >> $result_dir/load/tsx/$i
     fi;
