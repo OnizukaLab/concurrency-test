@@ -1,8 +1,5 @@
 #include <iostream>
-#include <string>
-#include <functional>
 #include <chrono>
-#include <vector>
 #include <future>
 #include "HashInc/HashIncNoCtrl.hpp"
 #include "HashInc/HashIncMutex.hpp"
