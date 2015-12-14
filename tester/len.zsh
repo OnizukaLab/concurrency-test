@@ -1,12 +1,15 @@
 #!/usr/bin/zsh
 
-result_dir=./result/`date +%s`
 nprocessors=`lscpu | grep -oP "^Core\(s\) per socket:\s+\d+" | sed -r "s/.+([0-9]+)/\1/"`
 nsockets=`lscpu | grep -oP "^Socket\(s\):\s+\d+" | sed -r "s/.+([0-9]+)/\1/"`
 ncores=$(($nprocessors * $nsockets))
+result_dir=./result/`date +%s`
 targets=({0..6})
-if [[ $# -ne 0 ]]; then;
-  targets=($@)
+if [[ $# -ge 1 ]]; then;
+  result_dir=./result/$1
+  if [[ $# -ge 2 ]]; then;
+    targets=(${@:2})
+  fi;
 fi;
 
 mkdir -p $result_dir/len/{cache,ahs,tsx}

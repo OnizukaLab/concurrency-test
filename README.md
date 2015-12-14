@@ -15,6 +15,7 @@
 |7|chunk size|8|
 |8|write op rate|0.2|
 
+
 ## Usage
 
 ### Prerequisites
@@ -33,8 +34,8 @@ source /path/to/vtune/amplxe-vars.sh
 cd /path/to/concurrency-test
 cmake .
 make
-for s in tester/*.zsh; do; ./$s; done; # all measurement
-tester/conc.zsh 1 6 # or customized one (concurrency/mutex&atomic)
+for s in tester/*.zsh; do; ./$s nyan; done; # all measurement (save to nyan)
+tester/conc.zsh nyan 1 6 # or customized one (concurrency/mutex&atomic, save to nyan)
 ```
 
 and then
