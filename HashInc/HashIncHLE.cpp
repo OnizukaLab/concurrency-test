@@ -1,8 +1,8 @@
 #include "HashIncHLE.hpp"
 
 
-HashIncHLE::HashIncHLE(int iters, int conc, int load, int len, int dens, int chunk, double ro)
-: HashIncBase(iters, conc, load, len, dens, chunk, ro){}
+HashIncHLE::HashIncHLE(int niters, int conc, int load, int len, int dens, int chunk, double ro)
+: HashIncBase(niters, conc, load, len, dens, chunk, ro){}
 
 void HashIncHLE::increment(int chunk_index){
 #ifdef HTM

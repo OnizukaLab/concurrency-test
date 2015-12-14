@@ -1,8 +1,8 @@
 #include "HashIncNoCtrl.hpp"
 
 
-HashIncNoCtrl::HashIncNoCtrl(int iters, int conc, int load, int len, int dens, int chunk, double ro)
-: HashIncBase(iters, conc, load, len, dens, chunk, ro){}
+HashIncNoCtrl::HashIncNoCtrl(int niters, int conc, int load, int len, int dens, int chunk, double ro)
+: HashIncBase(niters, conc, load, len, dens, chunk, ro){}
 
 void HashIncNoCtrl::increment(int chunk_index){
   auto sum = 0;

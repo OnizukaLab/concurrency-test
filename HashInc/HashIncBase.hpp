@@ -18,7 +18,7 @@ using namespace std;
 
 class HashIncBase{
 protected:
-  const int _iters;
+  const int _niters;
   const int _conc;
   const int _load;
   const int _len;
@@ -32,7 +32,7 @@ protected:
   virtual void increment(int chunk_index) = 0;
   
 public:
-  HashIncBase(int iters, int conc, int load, int len, int dens, int chunk, double ro);
+  HashIncBase(int niters, int conc, int load, int len, int dens, int chunk, double ro);
   
   chrono::duration<double> go();
   __attribute__((transaction_safe)) void intentional_load();

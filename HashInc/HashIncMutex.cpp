@@ -1,8 +1,8 @@
 #include "HashIncMutex.hpp"
 
 
-HashIncMutex::HashIncMutex(int iters, int conc, int load, int len, int dens, int chunk, double ro)
-: HashIncBase(iters, conc, load, len, dens, chunk, ro){}
+HashIncMutex::HashIncMutex(int niters, int conc, int load, int len, int dens, int chunk, double ro)
+: HashIncBase(niters, conc, load, len, dens, chunk, ro){}
 
 void HashIncMutex::increment(int chunk_index){
   _mtx.lock();

@@ -1,8 +1,8 @@
 #include "HashIncRTM.hpp"
 
 
-HashIncRTM::HashIncRTM(int iters, int conc, int load, int len, int dens, int chunk, double ro)
-: HashIncBase(iters, conc, load, len, dens, chunk, ro){}
+HashIncRTM::HashIncRTM(int niters, int conc, int load, int len, int dens, int chunk, double ro)
+: HashIncBase(niters, conc, load, len, dens, chunk, ro){}
 
 void HashIncRTM::increment(int chunk_index){
 #ifdef HTM
