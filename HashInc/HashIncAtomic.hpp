@@ -17,7 +17,7 @@ private:
   vector<atomic<long>> _atomic_v;
 
 protected:
-  void increment(int thread_num);
+  void increment(int chunk_index);
   
 public:
   HashIncAtomic(int iters, int conc, int load, int len, int dens, int chunk, double ro);

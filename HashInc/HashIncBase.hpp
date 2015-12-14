@@ -29,7 +29,7 @@ protected:
   vector<long> _v;
   vector<long> _index_list;
   vector<bool> _rw_list;
-  virtual void increment(int thread_num) = 0;
+  virtual void increment(int chunk_index) = 0;
   
 public:
   HashIncBase(int iters, int conc, int load, int len, int dens, int chunk, double ro);

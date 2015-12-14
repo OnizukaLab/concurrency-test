@@ -15,7 +15,7 @@ chrono::duration<double> HashIncBase::go(){
     for(int i = 0; i < _conc; i++)
       _threads.push_back(thread([=](){ 
         for(int j = 0; j < _iters / _conc; j++)
-          increment(i);
+          increment(_chunk * (i * _iters / _conc + j));
       }));
     for(thread &th: _threads)
       th.join();

@@ -14,7 +14,7 @@ using namespace std;
 
 class HashIncHtmAtomic: public HashIncBase{
 protected:
-  void increment(int thread_num);
+  void increment(int chunk_index);
   
 public:
   HashIncHtmAtomic(int iters, int conc, int load, int len, int dens, int chunk, double ro);
