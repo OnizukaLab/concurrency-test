@@ -35,7 +35,7 @@ public:
   HashIncBase(int iters, int conc, int load, int len, int dens, int chunk, double ro);
   
   chrono::duration<double> go();
-  void intentional_load();
+  __attribute__((transaction_safe)) void intentional_load();
   virtual long get_sum();
   virtual void print();
 };
