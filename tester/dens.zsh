@@ -1,6 +1,6 @@
 #!/usr/bin/zsh
 
-suffix=`date +%s`
+result_dir=../result/`date +%s`
 nprocessor=`lscpu | grep -oP "^Core\(s\) per socket:\s+\d+" | sed -r "s/.+([0-9]+)/\1/"`
 nsocket=`lscpu | grep -oP "^Socket\(s\):\s+\d+" | sed -r "s/.+([0-9]+)/\1/"`
 ncores=$(($nprocessor * $nsocket))
@@ -9,16 +9,16 @@ if [[ $# -ne 0 ]]; then;
   targets=($@)
 fi;
 
+mkdir -p $result_dir/dens/{cache,ahs,tsx}
 for i in $targets; do;
-    mkdir -p ../result/dens/{cache,ahs,tsx}
   for ((j = 1; j <= 16; j *= 2)); do;
     perf stat -e cache-misses,cache-references,L1-dcache-loads,L1-dcache-load-misses \
-      ../concurrency-test $i 1000000 $ncores 1000 1000 $j 8 0.2 >> ../result/dens/cache/$i.$suffix 2>&1
-    amplxe-cl -r=../result/dens.cellar/ahs/$i/$j -c advanced-hotspots ../concurrency-test $i 1000000 $ncores 1000 1000 $j 8 0.2 \
-      >> ../result/dens/ahs/$i.$suffix
+      ../concurrency-test $i 1000000 $ncores 1000 1000 $j 8 0.2 >> $result_dir/dens/cache/$i 2>&1
+    amplxe-cl -r=$result_dir/dens.cellar/ahs/$i/$j -c advanced-hotspots ../concurrency-test $i 1000000 $ncores 1000 1000 $j 8 0.2 \
+      >> $result_dir/dens/ahs/$i
     if [[ $i -eq 2 || $i -eq 3 || $i -eq 4 ]]; then;
-      amplxe-cl -r=../result/dens.cellar/tsx/$i/$j -c tsx-exploration ../concurrency-test $i 1000000 $ncores 1000 1000 $j 8 0.2 \
-        >> ../result/dens/tsx/$i.$suffix
+      amplxe-cl -r=$result_dir/dens.cellar/tsx/$i/$j -c tsx-exploration ../concurrency-test $i 1000000 $ncores 1000 1000 $j 8 0.2 \
+        >> $result_dir/dens/tsx/$i
     fi;
   done;
 done;
