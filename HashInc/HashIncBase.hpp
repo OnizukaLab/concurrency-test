@@ -17,13 +17,8 @@ using namespace std;
 
 
 class HashIncBase{
-private:
-  random_device _rd;
-  mt19937 _mt;
-  uniform_int_distribution<long> _distribution;
-
 protected:
-  const int _iters;
+  const int _niters;
   const int _conc;
   const int _load;
   const int _len;
@@ -32,13 +27,15 @@ protected:
   const double _ro;
   vector<thread> _threads;
   vector<long> _v;
-  long rand_index();
-  virtual void increment() = 0;
+  vector<long> _index_list;
+  vector<bool> _rw_list;
+  virtual void increment(int chunk_index) = 0;
   
 public:
-  HashIncBase(int iters, int conc, int load, int len, int dens, int chunk, double ro);
+  HashIncBase(int niters, int conc, int load, int len, int dens, int chunk, double ro);
   
   chrono::duration<double> go();
+  __attribute__((transaction_safe)) void intentional_load();
   virtual long get_sum();
   virtual void print();
 };

@@ -17,10 +17,10 @@ private:
   vector<atomic<long>> _atomic_v;
 
 protected:
-  void increment();
+  void increment(int chunk_index);
   
 public:
-  HashIncAtomic(int iters, int conc, int load, int len, int dens, int chunk, double ro);
+  HashIncAtomic(int niters, int conc, int load, int len, int dens, int chunk, double ro);
   
   long get_sum();
   void print();

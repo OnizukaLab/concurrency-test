@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_CXX_COMPILER "/usr/bin/g++")
-set(CMAKE_CXX_FLAGS "-std=c++11 -pthread -fgnu-tm -mhle -mrtm -Wall -g -O1 -shared-libgcc")
+set(CMAKE_CXX_FLAGS "-std=c++11 -pthread -fgnu-tm -mhle -mrtm -Wall -g -O3 -shared-libgcc")
 
 project(concurrency-test CXX)
 add_executable(concurrency-test

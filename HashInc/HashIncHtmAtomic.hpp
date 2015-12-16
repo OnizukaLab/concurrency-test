@@ -14,10 +14,10 @@ using namespace std;
 
 class HashIncHtmAtomic: public HashIncBase{
 protected:
-  void increment();
+  void increment(int chunk_index);
   
 public:
-  HashIncHtmAtomic(int iters, int conc, int load, int len, int dens, int chunk, double ro);
+  HashIncHtmAtomic(int niters, int conc, int load, int len, int dens, int chunk, double ro);
 };
 
 #endif
