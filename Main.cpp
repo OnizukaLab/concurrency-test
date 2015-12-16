@@ -50,11 +50,13 @@ int main(int argc, char **argv){
       auto inc4 = new HashIncMutex(niters, conc, load, len, dens, chunk, w_rate);
       auto res4 = inc4->go();
       cout << res4.count() << endl;
+      break;
     }
     case 5:{
       auto inc5 = new HashIncAtomic(niters, conc, load, len, dens, chunk, w_rate);
       auto res5 = inc5->go();
       cout << res5.count() << endl;
+      break;
     }
     case 6:{
       auto inc6 = new HashIncNoCtrl(niters, conc, load, len, dens, chunk, w_rate);
