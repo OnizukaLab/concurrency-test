@@ -15,12 +15,12 @@ fi;
 mkdir -p $result_dir/len/{cache,ahs,tsx}
 for i in $targets; do;
   for ((j = 10; j <= 10000; j *= 10)); do;
-    perf stat -e cache-misses,cache-references,L1-dcache-loads,L1-dcache-load-misses \
-      ./concurrency-test $i 1000000 $ncores 1000 $j 8 8 0.2 >> $result_dir/len/cache/$i 2>&1
-    amplxe-cl -r=$result_dir/len.cellar/ahs/$i/$j -c advanced-hotspots ./concurrency-test $i 1000000 $ncores 1000 $j 8 8 0.2 \
+#    perf stat -e cache-misses,cache-references,L1-dcache-loads,L1-dcache-load-misses \
+#      ./concurrency-test $i 1000000 $ncores 1000 0.5 $j 8 8 0.2 >> $result_dir/len/cache/$i 2>&1
+    amplxe-cl -r=$result_dir/len.cellar/ahs/$i/$j -c advanced-hotspots ./concurrency-test $i 1000000 $ncores 1000 0.5 $j 8 8 0.2 \
       >> $result_dir/len/ahs/$i
     if [[ 0 -le $i && $i -le 3 ]]; then;
-      amplxe-cl -r=$result_dir/len.cellar/tsx/$i/$j -c tsx-exploration ./concurrency-test $i 1000000 $ncores 1000 $j 8 8 0.2 \
+      amplxe-cl -r=$result_dir/len.cellar/tsx/$i/$j -c tsx-exploration ./concurrency-test $i 1000000 $ncores 1000 0.5 $j 8 8 0.2 \
         >> $result_dir/len/tsx/$i
     fi;
   done;

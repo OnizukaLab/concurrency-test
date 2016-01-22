@@ -15,12 +15,12 @@ fi;
 mkdir -p $result_dir/dens/{cache,ahs,tsx}
 for i in $targets; do;
   for ((j = 1; j <= 16; j *= 2)); do;
-    perf stat -e cache-misses,cache-references,L1-dcache-loads,L1-dcache-load-misses \
-      ./concurrency-test $i 1000000 $ncores 1000 1000 $j 8 0.2 >> $result_dir/dens/cache/$i 2>&1
-    amplxe-cl -r=$result_dir/dens.cellar/ahs/$i/$j -c advanced-hotspots ./concurrency-test $i 1000000 $ncores 1000 1000 $j 8 0.2 \
+#    perf stat -e cache-misses,cache-references,L1-dcache-loads,L1-dcache-load-misses \
+#      ./concurrency-test $i 1000000 $ncores 1000 0.5 1000 $j 8 0.2 >> $result_dir/dens/cache/$i 2>&1
+    amplxe-cl -r=$result_dir/dens.cellar/ahs/$i/$j -c advanced-hotspots ./concurrency-test $i 1000000 $ncores 1000 0.5 1000 $j 8 0.2 \
       >> $result_dir/dens/ahs/$i
     if [[ 0 -le $i && $i -le 3 ]]; then;
-      amplxe-cl -r=$result_dir/dens.cellar/tsx/$i/$j -c tsx-exploration ./concurrency-test $i 1000000 $ncores 1000 1000 $j 8 0.2 \
+      amplxe-cl -r=$result_dir/dens.cellar/tsx/$i/$j -c tsx-exploration ./concurrency-test $i 1000000 $ncores 1000 0.5 1000 $j 8 0.2 \
         >> $result_dir/dens/tsx/$i
     fi;
   done;

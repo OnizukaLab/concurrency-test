@@ -1,8 +1,8 @@
 #include "HashIncHtmRelaxed.hpp"
 
 
-HashIncHtmRelaxed::HashIncHtmRelaxed(int niters, int conc, int load, int len, int dens, int chunk, double ro)
-: HashIncBase(niters, conc, load, len, dens, chunk, ro){}
+HashIncHtmRelaxed::HashIncHtmRelaxed(int niters, int conc, int load, double l_balance, int len, int dens, int chunk, double ro)
+: HashIncBase(niters, conc, load, l_balance, len, dens, chunk, ro){}
 
 void HashIncHtmRelaxed::increment(int chunk_index){
 #ifdef HTM

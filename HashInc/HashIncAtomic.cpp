@@ -1,8 +1,8 @@
 #include "HashIncAtomic.hpp"
 
 
-HashIncAtomic::HashIncAtomic(int niters, int conc, int load, int len, int dens, int chunk, double ro)
-: HashIncBase(niters, conc, load, len, dens, chunk, ro), _atomic_v(len * dens){}
+HashIncAtomic::HashIncAtomic(int niters, int conc, int load, double l_balance, int len, int dens, int chunk, double ro)
+: HashIncBase(niters, conc, load, l_balance, len, dens, chunk, ro), _atomic_v(len * dens){}
 
 void HashIncAtomic::increment(int chunk_index){
   auto sum = 0;
@@ -10,7 +10,7 @@ void HashIncAtomic::increment(int chunk_index){
     auto index = chunk_index + i;
     sum += _rw_list[index] ? ++_atomic_v[_index_list[index]] : _atomic_v[_index_list[index]].load();
   }
-  intentional_load();
+  intentional_load_inside();
 }
 
 long HashIncAtomic::get_sum(){
