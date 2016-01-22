@@ -12,7 +12,7 @@ void HashIncHtmRelaxed::increment(int chunk_index){
       auto index = chunk_index + i;
       sum += _rw_list[index] ? ++_v[_index_list[index]] : _v[_index_list[index]];
     }
-    intentional_load();
+    intentional_load_inside();
   }
 #endif
 }
