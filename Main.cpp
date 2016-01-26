@@ -15,7 +15,7 @@ int main(int argc, char **argv){
   auto niters = stoi(argv[2]);
   auto conc = stoi(argv[3]);
   auto load = stoi(argv[4]);
-  auto l_balance = stoi(argv[5]);
+  auto l_balance = stod(argv[5]);
   auto len = stoi(argv[6]);
   auto dens = stoi(argv[7]);
   auto chunk = stoi(argv[8]);
