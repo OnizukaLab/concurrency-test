@@ -36,8 +36,7 @@
 ``` shell
 sudo dnf install cmake gcc gcc-c++ libitm kernel-devel zsh perf
 # install vtune
-# build vtune drivers
-# install vtune drivers
+# build and install vtune drivers
 ```
 
 ### Measurement
@@ -56,17 +55,17 @@ and then
 #### Elapsed time
 
 ``` shell
-for i in {0..6}; do; cat result/*/*/ahs/$i | grep -oP "^\d+(\.\d+)?"; echo ""; done;
+for i in {0..6}; do; cat result/*/*/ahs/$i | grep -oP "^[\d\.]+"; echo ""; done;
 ```
 
 #### Abort rate
 
 ``` shell
-for i in {2..5}; do; cat result/*/*/tsx/$i | grep -oP "(?<=Abort Cycles \(%\)\s{6})\d+(\.\d+)?"; echo ""; done;
+for i in {0..3}; do; cat result/*/*/tsx/$i | grep -oP "(?<=Abort Cycles \(%\)\s{6})[\d\.]+"; echo ""; done;
 ```
 
 #### Miss rate of all cache
 
 ``` shell
-for i in {0..6}; do; cat result/*/*/cache/$i | grep -oP "\d+(\.\d+)?(?=\s% of all cache refs)"; echo ""; done;
+for i in {0..6}; do; cat result/*/*/cache/$i | grep -oP "[\d\.]+(?=\s% of all cache refs)"; echo ""; done;
 ```

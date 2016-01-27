@@ -1,7 +1,7 @@
 #!/usr/bin/zsh
 
-nprocessors=`lscpu | grep -oP "^Core\(s\) per socket:\s+\d+" | sed -r "s/.+([0-9]+)/\1/"`
-nsockets=`lscpu | grep -oP "^Socket\(s\):\s+\d+" | sed -r "s/.+([0-9]+)/\1/"`
+nprocessors=`lscpu | grep -oP "(?<=Core\(s\) per socket:\s{4})\d+"`
+nsockets=`lscpu | grep -oP "(?<=Socket\(s\):\s{13})\d+"`
 ncores=$(($nprocessors * $nsockets))
 result_dir=./result/`date +%s`
 targets=({0..6})
