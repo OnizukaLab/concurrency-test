@@ -1,8 +1,8 @@
 #include "HashIncRTM.hpp"
 
 
-HashIncRTM::HashIncRTM(int niters, int conc, int load, int len, int dens, int chunk, double ro)
-: HashIncBase(niters, conc, load, len, dens, chunk, ro){}
+HashIncRTM::HashIncRTM(int niters, int conc, int load, double l_balance, int len, int dens, int chunk, double ro)
+: HashIncBase(niters, conc, load, l_balance, len, dens, chunk, ro){}
 
 void HashIncRTM::increment(int chunk_index){
 #ifdef HTM
@@ -14,7 +14,7 @@ void HashIncRTM::increment(int chunk_index){
       auto index = chunk_index + i;
       sum += _rw_list[index] ? ++_v[_index_list[index]] : _v[_index_list[index]];
     }
-    intentional_load();
+    intentional_load_inside();
     _xend();
   } else {
     goto retry;

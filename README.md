@@ -10,10 +10,11 @@
 |2|num of iterations|1000000|
 |3|concurrency|num of physical cores|
 |4|load|1000|
-|5|conflict rate(length of array)|1000|
-|6|element size(density of array)|8|
-|7|chunk size|8|
-|8|write op rate|0.2|
+|5|load balance(inside load rate)|0.5|
+|6|conflict rate(length of array)|1000|
+|7|element size(density of array)|8|
+|8|chunk size|8|
+|9|write op rate|0.2|
 
 ### Types of concurrency
 
@@ -21,8 +22,8 @@
 |---|---|
 |0|HLE|
 |1|RTM|
-|2|transaction_atomic(gcc)|
-|3|transaction_relaxed(gcc)|
+|2|transaction_atomic(by gcc)|
+|3|transaction_relaxed(by gcc)|
 |4|mutex lock|
 |5|atomic value|
 |6|no control|
