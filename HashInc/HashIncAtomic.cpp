@@ -8,9 +8,20 @@ void HashIncAtomic::increment(int chunk_index){
   auto sum = 0;
   for(int i = 0; i < _chunk; i++) {
     auto index = chunk_index + i;
-    sum += _rw_list[index] ? ++_atomic_v[_index_list[index]] : _atomic_v[_index_list[index]].load();
+    if(_rw_list[index]){
+      int result;
+      while(true){
+        auto loaded = _atomic_v[_index_list[index]].load();
+        intentional_load_inside();
+        result = loaded + 1;
+        if(_atomic_v[_index_list[index]].compare_exchange_strong(loaded, result))
+          break;
+      }
+      sum += result;
+    }else{
+      sum += _atomic_v[_index_list[index]].load();
+    }
   }
-  intentional_load_inside();
 }
 
 long HashIncAtomic::get_sum(){
