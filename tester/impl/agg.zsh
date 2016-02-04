@@ -5,16 +5,16 @@ niters=5
 noutliers=1
 regexs=("$3")
 local -A opts
-if [[ "${opts[(i)-i]}" ]]; then
+if [[ -n "${opts[(i)-i]}" ]]; then
   niters=${opts[-i]}
 fi
-if [[ "${opts[(i)-o]}" ]]; then
+if [[ -n "${opts[(i)-o]}" ]]; then
   noutliers=${opts[-o]}
 fi
-if [[ "${opts[(i)-p]}" ]]; then
+if [[ -n "${opts[(i)-p]}" ]]; then
   echo "\"parallel\" option is not implemented"
 fi
-if [[ "${opts[(i)-a]}" ]]; then
+if [[ -n "${opts[(i)-a]}" ]]; then
   arr=(`echo ${opts[-a]}`)
   regexs+="${arr[@]}"
 fi
@@ -36,7 +36,7 @@ for i in {1..$niters}; do
   eval $1
   mv $2 $dir/$i
   for r in "${regexs[@]}"; do
-    if [[ ${data[$i]} ]]; then
+    if [[ -n ${data[$i]} ]]; then
       data[$i]="${data[$i]} `cat $dir/$i | grep -oP \"$r\"`"
     else
       data[$i]="${data[$i]}`cat $dir/$i | grep -oP \"$r\"`"

@@ -20,7 +20,7 @@ tsx_dir="$result_dir/tsx"
 
 command='./concurrency-test $i 1000000 $j 1000 0.5 1000 8 8 0.2'
 
-if [[ ! $amplxe_enabled ]]; then
+if [[ -z $amplxe_enabled ]]; then
   echo "amplxe is disabled" 1>&2
 fi
 
@@ -34,7 +34,7 @@ for i in $targets; do
         `eval echo $command` > $cache_dir/$i/$j 2>&1" \
       "$cache_dir/$i/$j" \
       "^[\d\.]+" > $cache_dir/$i/_$j
-    if [[ 0 -le $i && $i -le 3 && $amplxe_enabled ]]; then
+    if [[ 0 -le $i && $i -le 3 && -n $amplxe_enabled ]]; then
       $work_dir/impl/agg.zsh \
         -a "(?<=Abort Cycles \(%\)\s{6})[\d\.]+" \
         "amplxe-cl -c tsx-exploration -r ${tsx_dir}.vtune/$i/$j/\$i `eval echo $command` > $tsx_dir/$i/$j" \

@@ -45,6 +45,7 @@ cd /path/to/concurrency-test
 cmake .
 make
 source /path/to/vtune/amplxe-vars.sh (optional)
+export LANG=C
 for s in tester/*.zsh; do ./$s nyan; done # all measurement (save to nyan)
 tester/conc.zsh nyan 0 4 # or customized one (concurrency/HLE&mutex, save to nyan)
 ```
