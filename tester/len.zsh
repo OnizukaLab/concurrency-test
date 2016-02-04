@@ -4,6 +4,7 @@ type="`basename $0 .zsh`"
 nprocessors=`lscpu | grep -oP "(?<=Core\(s\) per socket:\s{4})\d+"`
 nsockets=`lscpu | grep -oP "(?<=Socket\(s\):\s{13})\d+"`
 ncores=$(($nprocessors * $nsockets))
+amplxe_enabled=`which amplxe-cl 2> /dev/null`
 result_dir="result/`date +%s`/$type"
 targets=({0..6})
 if [[ $# -ge 1 ]]; then
@@ -13,21 +14,27 @@ if [[ $# -ge 1 ]]; then
   fi
 fi
 work_dir="`dirname $0`"
+time_dir="$result_dir/time"
 cache_dir="$result_dir/cache"
 tsx_dir="$result_dir/tsx"
 
 command='./concurrency-test $i 1000000 $ncores 1000 0.5 $j 8 8 0.2'
 
+if [[ ! $amplxe_enabled ]]; then
+  echo "amplxe is disabled" 1>&2
+fi
+
 for i in $targets; do
-  mkdir -p $result_dir/{cache,tsx}/$i
+  mkdir -p $result_dir/{time,cache,tsx}/$i
   for ((j = 10; j <= 10000; j *= 10)); do
+    $work_dir/agg.zsh "`eval echo $command` > $time_dir/$i/$j" "$time_dir/$i/$j" "^[\d\.]+" > $time_dir/$i/_$j
     $work_dir/agg.zsh \
       -a "[\d\.]+(?=\s% of all cache refs)" \
       "perf stat -e cache-misses,cache-references,L1-dcache-loads,L1-dcache-load-misses \
         `eval echo $command` > $cache_dir/$i/$j 2>&1" \
       "$cache_dir/$i/$j" \
       "^[\d\.]+" > $cache_dir/$i/_$j
-    if [[ 0 -le $i && $i -le 3 ]]; then
+    if [[ 0 -le $i && $i -le 3 && $amplxe_enabled ]]; then
       $work_dir/agg.zsh \
         -a "(?<=Abort Cycles \(%\)\s{6})[\d\.]+" \
         "amplxe-cl -c tsx-exploration -r ${tsx_dir}.vtune/$i/$j/\$i `eval echo $command` > $tsx_dir/$i/$j" \
