@@ -14,6 +14,9 @@ using namespace std;
 
 
 class HashIncHLE: public HashIncBase{
+private:
+  int _lock_var;
+
 protected:
   void increment(int chunk_index);
   
