@@ -27,15 +27,15 @@ fi
 for i in $targets; do
   mkdir -p $result_dir/{time,cache,tsx}/$i
   for ((j = 1; j <= $ncores; j++)); do
-    $work_dir/agg.zsh "`eval echo $command` > $time_dir/$i/$j" "$time_dir/$i/$j" "^[\d\.]+" > $time_dir/$i/_$j
-    $work_dir/agg.zsh \
+    $work_dir/impl/agg.zsh "`eval echo $command` > $time_dir/$i/$j" "$time_dir/$i/$j" "^[\d\.]+" > $time_dir/$i/_$j
+    $work_dir/impl/agg.zsh \
       -a "[\d\.]+(?=\s% of all cache refs)" \
       "perf stat -e cache-misses,cache-references,L1-dcache-loads,L1-dcache-load-misses \
         `eval echo $command` > $cache_dir/$i/$j 2>&1" \
       "$cache_dir/$i/$j" \
       "^[\d\.]+" > $cache_dir/$i/_$j
     if [[ 0 -le $i && $i -le 3 && $amplxe_enabled ]]; then
-      $work_dir/agg.zsh \
+      $work_dir/impl/agg.zsh \
         -a "(?<=Abort Cycles \(%\)\s{6})[\d\.]+" \
         "amplxe-cl -c tsx-exploration -r ${tsx_dir}.vtune/$i/$j/\$i `eval echo $command` > $tsx_dir/$i/$j" \
         "$tsx_dir/$i/$j" \
