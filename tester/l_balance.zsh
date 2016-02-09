@@ -18,7 +18,7 @@ time_dir="$result_dir/time"
 cache_dir="$result_dir/cache"
 tsx_dir="$result_dir/tsx"
 
-command='./concurrency-test $i 1000000 $ncores 1000 0.5 1000 8 $j 0.2'
+command='./concurrency-test $i 1000000 $ncores 1000 $(($j / 100.0)) 1000 8 8 0.2'
 
 if [[ -z $amplxe_enabled ]]; then
   echo "amplxe is disabled" 1>&2
@@ -26,7 +26,7 @@ fi
 
 for i in $targets; do
   mkdir -p $result_dir/{time,cache,tsx}/$i
-  for ((j = 1; j <= 128; j *= 2)); do
+  for ((j = 0; j <= 100; j += 20)); do
     $work_dir/impl/agg.zsh "`eval echo $command` > $time_dir/$i/$j" "$time_dir/$i/$j" "^[\d\.]+" > $time_dir/$i/_$j
     $work_dir/impl/agg.zsh \
       -a "[\d\.]+(?=\s% of all cache refs)" \

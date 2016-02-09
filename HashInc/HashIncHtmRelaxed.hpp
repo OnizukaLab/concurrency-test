@@ -17,7 +17,7 @@ protected:
   void increment(int chunk_index);
   
 public:
-  HashIncHtmRelaxed(int niters, int conc, int load, int len, int dens, int chunk, double ro);
+  HashIncHtmRelaxed(int niters, int conc, int load, double l_balance, int len, int dens, int chunk, double ro);
 };
 
 #endif

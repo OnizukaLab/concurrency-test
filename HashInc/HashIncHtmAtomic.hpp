@@ -17,7 +17,7 @@ protected:
   void increment(int chunk_index);
   
 public:
-  HashIncHtmAtomic(int niters, int conc, int load, int len, int dens, int chunk, double ro);
+  HashIncHtmAtomic(int niters, int conc, int load, double l_balance, int len, int dens, int chunk, double ro);
 };
 
 #endif
